@@ -1,31 +1,34 @@
-#Variable size sliding window - Longest substring without repeating character
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
 
-s = "abcabcbb"
-# s = "abacefaabaaaa"
+class Solution:
+    def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
+        #annotate parent
+        
+        def dfs(node, parent = None):
+            if node:
+                node.par = parent
 
-i, j = 0, 0 #ptrs
-
-mp = {}
-st = set()
-length = 0
-start, end = 0, 0
-
-while j< len(s):
-    if s[j] not in st:
-        st.add(s[j])
-        j+=1
-    elif s[j] in st:
-        if j-i > length:
-            length = j-i
-            start = i
-            end = j-1
-        while s[j] in st:
-            st.remove(s[i])
-            i+=1
-        st.add(s[j])
-        j+=1
-
-length = max(length, j-i)
-
-print(s[start:end+1])
-print(length)
+                dfs(node.left, node)
+                dfs(node.right, node)
+        
+        
+        dfs(root)
+        
+        q  = deque([(target, 0)])
+        visited = {target}
+        
+        while q:
+            if q[0][1] == k:
+                return [node.val for node, d in q]
+            else:
+                node, d = q.popleft()
+                for nd in (node.left, node.right, node.par):
+                    if nd and nd not in visited:
+                        visited.add(nd)
+                        q.append((nd, d+1))
+        return []
