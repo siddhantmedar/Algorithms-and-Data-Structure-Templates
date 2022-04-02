@@ -22,3 +22,5 @@ def dfs(node):
 for i in range(6):
     if visited[i] == False:
         dfs(i)
+
+print(stack[::-1])

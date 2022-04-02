@@ -47,15 +47,15 @@ def revdfs(node):
     tmp.append(node)
 
     for adj in rev_graph[node]:
-        if visited[adj] == False:
+        if not visited[adj]:
             revdfs(adj)
 
 
 while stack:
     node = stack.popleft()
-    if visited[node] == False:
+    if not visited[node]:
         revdfs(node)
-        result.append(tmp)
+        result.append(tmp.copy())
         tmp.clear()
 
 print(result)
